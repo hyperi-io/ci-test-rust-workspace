@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.3...v1.0.4) (2026-03-02)
+
+
+### Bug Fixes
+
+* update ci submodule for workspace publish registry fix ([e41b0f1](https://github.com/hyperi-io/ci-test-rust-workspace/commit/e41b0f18d1d407ccb19508c240c30f71812fc29d))
+
 ## [1.0.3](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.2...v1.0.3) (2026-03-02)
 
 
