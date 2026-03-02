@@ -1,0 +1,14 @@
+# Project:    ci-test-rust-workspace
+# License:    FSL-1.1-ALv2
+# Copyright:  (c) 2026 HYPERI PTY LIMITED
+
+language: rust
+
+quality:
+  enabled: true
+
+test:
+  enabled: true
+
+build:
+  enabled: true
