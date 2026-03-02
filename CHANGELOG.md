@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.2...v1.0.3) (2026-03-02)
+
+
+### Bug Fixes
+
+* add version to path dependency for cargo publish ([647dd23](https://github.com/hyperi-io/ci-test-rust-workspace/commit/647dd23e25632f6c171d19db0aee3fb770291b23))
+
 ## [1.0.2](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.1...v1.0.2) (2026-03-02)
 
 
