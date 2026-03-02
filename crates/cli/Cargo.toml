@@ -8,4 +8,4 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-ci-test-core = { version = "0.1.0", path = "../core" }
+ci-test-core = { path = "../core" }
