@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.1...v1.0.2) (2026-03-02)
+
+
+### Bug Fixes
+
+* remove version requirement from path dependency ([ee4a329](https://github.com/hyperi-io/ci-test-rust-workspace/commit/ee4a3298c81a862ad683b876a7de38e78b2982ea))
+
 ## [1.0.1](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.0...v1.0.1) (2026-03-02)
 
 
