@@ -9,13 +9,6 @@ name: CI
 on:
   push:
     branches: ["**"]
-    paths-ignore:
-      - ".claude/**"
-      - ".cursor/**"
-      - ".gemini/**"
-      - "hyperi-ai/**"
-      - "docs/**"
-      - "**.md"
   pull_request:
     branches: [main]
   workflow_dispatch:
