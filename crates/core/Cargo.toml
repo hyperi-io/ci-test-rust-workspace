@@ -1,8 +1,16 @@
-# Project:    ci-test-rust-workspace
-# License:    FSL-1.1-ALv2
-# Copyright:  (c) 2026 HYPERI PTY LIMITED
+# Project:   ci-test-rust-workspace
+# Crate:     core (library)
+# License:   FSL-1.1-ALv2
+# Copyright: (c) 2026 HYPERI PTY LIMITED
 
 [package]
-name = "ci-test-core"
-version = "0.0.1"
-edition = "2021"
+name = "ci-test-rust-workspace-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Core library for the workspace test — re-exports hyperi-rustlib's logger"
+
+[dependencies]
+# Inherits version + features from [workspace.dependencies]
+hyperi-rustlib.workspace = true

@@ -1,15 +1,28 @@
-// Project:    ci-test-rust-workspace
-// License:    FSL-1.1-ALv2
-// Copyright:  (c) 2026 HYPERI PTY LIMITED
+// Project:   ci-test-rust-workspace-core
+// License:   FSL-1.1-ALv2
+// Copyright: (c) 2026 HYPERI PTY LIMITED
 
-/// Add two numbers.
-pub fn add(a: i32, b: i32) -> i32 {
-    a + b
+//! Core lib for the workspace test — proves that hyperi-rustlib's
+//! ``[workspace.dependencies]`` inheritance + member-level
+//! ``.workspace = true`` consumption resolves and links cleanly.
+
+/// Initialise the rustlib logger. Returns whatever rustlib returns.
+///
+/// Used by the cli member to verify the inherited workspace dep is
+/// reachable across crate boundaries — a member library exposes a
+/// thin wrapper, the cli binary calls it. If the inheritance breaks,
+/// this fails to compile at the cli member.
+pub fn setup_logger() -> Result<(), hyperi_rustlib::logger::LoggerError> {
+    hyperi_rustlib::logger::setup_default()
 }
 
-/// Return a greeting for the given name.
-pub fn greet(name: &str) -> String {
-    format!("Hello, {}!", name)
+/// Return a single-line banner for the workspace.
+///
+/// Includes the workspace package version pulled from
+/// ``CARGO_PKG_VERSION`` — exercises the workspace.package.version
+/// inheritance as well.
+pub fn banner() -> String {
+    format!("ci-test-rust-workspace-core v{}", env!("CARGO_PKG_VERSION"))
 }
 
 #[cfg(test)]
@@ -17,22 +30,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_add() {
-        assert_eq!(add(2, 3), 5);
+    fn banner_includes_version() {
+        let s = banner();
+        assert!(s.contains(env!("CARGO_PKG_VERSION")));
     }
 
     #[test]
-    fn test_add_negative() {
-        assert_eq!(add(-1, 1), 0);
-    }
-
-    #[test]
-    fn test_greet() {
-        assert_eq!(greet("World"), "Hello, World!");
-    }
-
-    #[test]
-    fn test_greet_name() {
-        assert_eq!(greet("HyperI"), "Hello, HyperI!");
+    fn setup_logger_callable() {
+        // Don't unwrap — sibling tests in the same process may have
+        // already initialised the logger.
+        let _ = setup_logger();
     }
 }

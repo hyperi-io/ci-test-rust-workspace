@@ -1,14 +1,47 @@
-# Project:    ci-test-rust-workspace
-# License:    FSL-1.1-ALv2
-# Copyright:  (c) 2026 HYPERI PTY LIMITED
+# Project:   ci-test-rust-workspace
+# License:   FSL-1.1-ALv2
+# Copyright: (c) 2026 HYPERI PTY LIMITED
+#
+# Workspace test in the hyperi-ci matrix. Sibling repos:
+#   ci-test-rust-app  — single-crate bin
+#   ci-test-rust-lib  — single-crate lib
+#
+# This repo specifically exercises workspace-shape concerns: VERSION
+# sync across N Cargo.toml files, [workspace.dependencies] inheritance,
+# and workspace-aware quality / container handlers.
 
 language: rust
 
+runners:
+  default: ubuntu-latest
+
 quality:
   enabled: true
+  rust:
+    features:
+      - "default"
 
 test:
   enabled: true
+  coverage: false
 
 build:
   enabled: true
+  type: app
+  strategies:
+    - native
+  rust:
+    targets:
+      - x86_64-unknown-linux-gnu
+      - aarch64-unknown-linux-gnu
+
+publish:
+  enabled: true
+  target: oss
+  binaries: both
+  container:
+    enabled: true
+    dockerfile: Dockerfile
+    platforms:
+      - linux/amd64
+      - linux/arm64

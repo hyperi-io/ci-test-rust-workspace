@@ -1,7 +1,35 @@
-# Project:    ci-test-rust-workspace
-# License:    FSL-1.1-ALv2
-# Copyright:  (c) 2026 HYPERI PTY LIMITED
+# Project:   ci-test-rust-workspace
+# License:   FSL-1.1-ALv2
+# Copyright: (c) 2026 HYPERI PTY LIMITED
+#
+# Two-crate workspace test for the hyperi-ci pipeline. Exercises:
+#
+#   1. [workspace.dependencies] inheritance — hyperi-rustlib version
+#      pinned at workspace root, members consume via .workspace = true.
+#   2. Multi-Cargo.toml VERSION sync — releaserc prepareCmd updates
+#      both Cargo.toml files via sed.
+#   3. Workspace-aware clippy / feature_matrix / cargo metadata
+#      iteration in hyperi-ci's quality + container handlers.
+#   4. Container build of one workspace member while another member
+#      is a dependency.
 
 [workspace]
 members = ["crates/core", "crates/cli"]
 resolver = "2"
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.82"
+license = "FSL-1.1-ALv2"
+authors = ["HYPERI PTY LIMITED"]
+
+[workspace.dependencies]
+hyperi-rustlib = { version = ">=2.5.4", default-features = false, features = ["logger", "cli"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+panic = "abort"
+opt-level = 3
