@@ -1,49 +1,46 @@
 # Project:   ci-test-rust-workspace
 # File:      Dockerfile
-# Purpose:   Container image for the workspace's cli member binary
+# Purpose:   Runtime container image — consumes pre-built binary from
+#            hyperi-ci's Build stage (dist/) instead of compiling
+#            from source. Mirrors ci-test-rust-app + dfe-loader pattern.
 # License:   FSL-1.1-ALv2
 # Copyright: (c) 2026 HYPERI PTY LIMITED
+#
+# Build context: hyperi-ci's Container job runs after Build and uses
+# actions/download-artifact to populate dist/ with cross-compiled
+# binaries named:
+#
+#   dist/ci-test-rust-workspace-linux-amd64
+#   dist/ci-test-rust-workspace-linux-arm64
+#
+# buildx multi-arch sets TARGETARCH per platform run; we COPY the
+# matching binary in. No Rust toolchain needed in the image.
+#
+# Workspace member that produces the binary is crates/cli with bin
+# name `ci-test-rust-workspace`. No rdkafka in this workspace so the
+# runtime base only needs ca-certificates + libssl3.
 
-# -- Build stage ---------------------------------------------------------------
-FROM rust:1.82-slim AS builder
+FROM ubuntu:24.04
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       build-essential pkg-config libssl-dev \
-       gcc-aarch64-linux-gnu \
+       ca-certificates libssl3 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN rustup target add aarch64-unknown-linux-gnu
+# buildx exposes TARGETARCH (amd64 | arm64) per platform run. Pick the
+# pre-built cross-compiled binary that matches.
+ARG TARGETARCH
+COPY dist/ci-test-rust-workspace-linux-${TARGETARCH} /usr/local/bin/ci-test-rust-workspace
+RUN chmod +x /usr/local/bin/ci-test-rust-workspace
 
-WORKDIR /build
-
-# Copy the entire workspace — manifests + sources together. Workspace
-# builds need both members regardless of which member produces the
-# final binary.
-COPY Cargo.toml Cargo.lock* ./
-COPY crates/ ./crates/
-
-ARG TARGETARCH=amd64
-
-RUN if [ "${TARGETARCH}" = "arm64" ]; then \
-        export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc; \
-        cargo build --release --bin ci-test-rust-workspace --target aarch64-unknown-linux-gnu; \
-        cp target/aarch64-unknown-linux-gnu/release/ci-test-rust-workspace /build/ci-test-rust-workspace; \
-    else \
-        cargo build --release --bin ci-test-rust-workspace --target x86_64-unknown-linux-gnu; \
-        cp target/x86_64-unknown-linux-gnu/release/ci-test-rust-workspace /build/ci-test-rust-workspace; \
-    fi
-
-# -- Runtime stage -------------------------------------------------------------
-FROM debian:bookworm-slim
-
-RUN useradd --create-home --uid 10001 --shell /bin/bash appuser
-
-COPY --from=builder --chown=appuser:appuser /build/ci-test-rust-workspace /usr/local/bin/ci-test-rust-workspace
+# Ubuntu 24.04 ships with a default `ubuntu` user at uid 1000 — remove
+# before adding our nonroot appuser.
+RUN userdel -r ubuntu 2>/dev/null || true \
+    && useradd --create-home --uid 10001 appuser
 
 USER appuser
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=2s --retries=2 \
-    CMD ci-test-rust-workspace --version || exit 1
+    CMD ci-test-rust-workspace || exit 1
 
 ENTRYPOINT ["ci-test-rust-workspace"]
