@@ -17,6 +17,10 @@ language: rust
 
 quality:
   enabled: true
+  rust:
+    feature_matrix:
+      enabled: false
+      reason: "workspace has bin-only members; cargo-hack --each-feature check --lib fails per-member when the member has no lib target. Tracked: hyperi-ci needs per-package lib detection for workspace iteration."
 
 test:
   enabled: true
