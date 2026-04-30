@@ -1,3 +1,13 @@
+## [1.0.5](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.4...v1.0.5) (2026-04-30)
+
+
+### Bug Fixes
+
+* disable feature_matrix on workspace with bin-only members ([52df3db](https://github.com/hyperi-io/ci-test-rust-workspace/commit/52df3dbecf4cad0fac79b342c0a33852cbc069ca))
+* greenfield two-crate workspace + hyperi-rustlib inheritance ([99b4aba](https://github.com/hyperi-io/ci-test-rust-workspace/commit/99b4abaaeae612e274a96a205ebeea500cd1788b))
+* refresh init output (releaserc + githooks + Makefile) and target=oss ([4ef6588](https://github.com/hyperi-io/ci-test-rust-workspace/commit/4ef6588fb2fe4838ac8817b1ec3d4a2d08c5a1c6))
+* switch to runtime-only Dockerfile that COPYs from dist/ ([b7d1251](https://github.com/hyperi-io/ci-test-rust-workspace/commit/b7d125154cbd957b493fc8e957dd7251c78406d4))
+
 ## [1.0.4](https://github.com/hyperi-io/ci-test-rust-workspace/compare/v1.0.3...v1.0.4) (2026-03-02)
 
 
