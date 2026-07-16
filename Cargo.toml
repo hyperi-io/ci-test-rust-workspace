@@ -6,8 +6,9 @@
 #
 #   1. [workspace.dependencies] inheritance — hyperi-rustlib version
 #      pinned at workspace root, members consume via .workspace = true.
-#   2. Multi-Cargo.toml VERSION sync — releaserc prepareCmd updates
-#      both Cargo.toml files via sed.
+#   2. Multi-crate VERSION sync - members set version.workspace = true, so
+#      hyperi-ci stamp-version writes [workspace.package].version once and
+#      both crates inherit it (no per-crate releaserc exec needed).
 #   3. Workspace-aware clippy / feature_matrix / cargo metadata
 #      iteration in hyperi-ci's quality + container handlers.
 #   4. Container build of one workspace member while another member
