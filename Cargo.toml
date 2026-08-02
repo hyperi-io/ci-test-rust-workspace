@@ -19,6 +19,10 @@ members = ["crates/core", "crates/cli"]
 resolver = "2"
 
 [workspace.package]
+# Repo-level description for the OCI image label, GHCR's package page and the
+# GitHub blurb. Members keep their own [package] description -- a core library
+# and a CLI describe different things -- so nothing inherits this one.
+description = "Two-crate workspace fixture for the hyperi-ci pipeline"
 version = "1.0.5"
 edition = "2021"
 rust-version = "1.82"
