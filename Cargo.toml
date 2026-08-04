@@ -4,8 +4,8 @@
 #
 # Two-crate workspace test for the hyperi-ci pipeline. Exercises:
 #
-#   1. [workspace.dependencies] inheritance — hyperi-rustlib version
-#      pinned at workspace root, members consume via .workspace = true.
+#   1. [workspace.dependencies] inheritance -- scalo version pinned at
+#      workspace root, members consume via .workspace = true.
 #   2. Multi-crate VERSION sync - members set version.workspace = true, so
 #      hyperi-ci stamp-version writes [workspace.package].version once and
 #      both crates inherit it (no per-crate releaserc exec needed).
@@ -25,12 +25,18 @@ resolver = "2"
 description = "hyperi-ci E2E fixture: two-crate Rust workspace, version inheritance"
 version = "1.0.5"
 edition = "2021"
-rust-version = "1.82"
+# Floor set by scalo, which is edition 2024 and declares rustc 1.95.
+# The edition stays 2021 -- that is this fixture's own test axis.
+rust-version = "1.95"
 license = "FSL-1.1-ALv2"
 authors = ["HYPERI PTY LIMITED"]
 
 [workspace.dependencies]
-hyperi-rustlib = { version = ">=2.5.4", default-features = false, features = ["logger", "cli"] }
+# scalo (crates.io) -- the successor to the archived hyperi-rustlib.
+# Pinned once here, consumed by both members via `scalo.workspace = true`.
+# `default-features = false` drops scalo's default `config` feature.
+# `cli` is the bare clap tier; `cli-service` pulls metrics + worker-pool.
+scalo = { version = ">=2.10.7, <3", default-features = false, features = ["logger", "cli"] }
 
 [profile.release]
 lto = "thin"
