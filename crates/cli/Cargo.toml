@@ -17,4 +17,4 @@ path = "src/main.rs"
 
 [dependencies]
 ci-test-rust-workspace-core = { path = "../core", version = "1.0.0" }
-hyperi-rustlib.workspace = true
+scalo.workspace = true

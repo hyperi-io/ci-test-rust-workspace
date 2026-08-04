@@ -6,8 +6,8 @@
 //!
 //! 1. The sibling member crate (`-core`) is reachable via path dep.
 //! 2. `[workspace.dependencies]` inheritance flows through to a member
-//!    bin's runtime — the binary calls into core which calls into
-//!    hyperi-rustlib.
+//!    bin's runtime -- the binary calls into core which calls into
+//!    scalo.
 
 use ci_test_rust_workspace_core::{banner, setup_logger};
 
