@@ -38,7 +38,6 @@ build:
 
 publish:
   enabled: true
-  target: oss
   # NO PUBLIC REGISTRY UPLOAD. Every ci-test fixture carries this.
   #
   # A falsy destination is hyperi-ci's per-artefact opt-out, so everything up
@@ -51,9 +50,9 @@ publish:
   # `members`, not one name. ci-test-rust-lib published 1.0.0 to crates.io on
   # 2026-07-29 from a routine fixture run and that was a single crate.
   #
-  # `publish.enabled: false` does NOT do this. hyperi-ci never reads that key
-  # (hyperi-io/hyperi-ci#79) -- cut the destination, not the stage.
-  destinations_oss:
+  # `publish.enabled: false` would stop the whole release stage, which is the
+  # part under test -- cut the destination, not the stage.
+  destinations:
     cargo: false
   binaries: both
   container:
