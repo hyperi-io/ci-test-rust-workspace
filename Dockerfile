@@ -20,7 +20,7 @@
 # name `ci-test-rust-workspace`. No rdkafka in this workspace so the
 # runtime base only needs ca-certificates + libssl3.
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
