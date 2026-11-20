@@ -36,7 +36,7 @@ authors = ["HYPERI PTY LIMITED"]
 # Pinned once here, consumed by both members via `scalo.workspace = true`.
 # `default-features = false` drops scalo's default `config` feature.
 # `cli` is the bare clap tier; `cli-service` pulls metrics + worker-pool.
-scalo = { version = ">=2.10.7, <3", default-features = false, features = ["logger", "cli"] }
+scalo = { version = ">=2.14.32, <3", default-features = false, features = ["logger", "cli"] }
 
 [profile.release]
 lto = "thin"
